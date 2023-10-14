@@ -1,0 +1,5 @@
+node_modules/
+scrapper
+scrapper.zip
+.cache
+.env
