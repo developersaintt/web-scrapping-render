@@ -20,24 +20,25 @@ app.get("/api/scrap", async function (req, res) {
   scrapURL(req, res);
 });
 
-app.get("/local", async function (req, res) {
-  const urlParam = req.query?.url;
-  const appUri = req.query?.appurl;
+// app.get("/local", async function (req, res) {
+//   const urlParam = req.query?.url;
+//   const appUri = req.query?.appurl;
 
-  if (!urlParam) {
-    //   res.writeHead(200, { "Content-Type": "application/json" });
-    res.send({ error: "url is required" });
-    return;
-  }
+//   if (!urlParam) {
+//     //   res.writeHead(200, { "Content-Type": "application/json" });
+//     res.send({ error: "url is required" });
+//     return;
+//   }
 
-  if (!urlParam.includes("fragrantica.com")) {
-    //   res.writeHead(200, { "Content-Type": "application/json" });
-    res.send({ error: "only accepts fragrantic urls" });
-    return;
-  }
-  var response = await axios.get(`${appUri}/api/scrap?url=${urlParam}`);
-  console.log(response);
-});
+//   if (!urlParam.includes("fragrantica.com")) {
+//     //   res.writeHead(200, { "Content-Type": "application/json" });
+//     res.send({ error: "only accepts fragrantic urls" });
+//     return;
+//   }
+//   // var response = await axios.get(`${appUri}/api/scrap?url=${urlParam}`);
+//   var response = await axios.get(`/api/scrap?url=${urlParam}`);
+//   console.log(response);
+// });
 
 let server = app.listen(8080, function () {
   console.log("Server is listening on port 8080");

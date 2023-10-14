@@ -26,7 +26,7 @@ async function scrapURL(req, res) {
     let browser = null;
     try {
       const browser = await puppeteer.launch({
-        // headless: "new",
+        headless: "new",
         args: [
           "--disable-setuid-sandbox",
           "--no-sandbox",
@@ -55,6 +55,9 @@ async function scrapURL(req, res) {
           ).toFixed(2),
         }))
       );
+
+      console.log(urlParam);
+      console.log(accordBoxData);
 
       // Seasons
       await page.waitForSelector("#rating + div + div > div + div [index]");
@@ -153,7 +156,7 @@ async function scrapURL(req, res) {
       };
       console.log(finalNotes);
       await metafieldsUpdate(finalNotes, id);
-      res.send(200, { data: finalNotes });
+      res.send(200).data({ data: finalNotes });
       // res.send({
       //   notes,
       //   seasons: {
