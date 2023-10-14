@@ -40,12 +40,7 @@ async function scrapURL(req, res) {
       });
 
       const page = await browser.newPage();
-      await page.goto(
-        urlParam,
-        // "https://www.fragrantica.com/perfume/Francesca-Bianchi/Sex-And-The-Sea-Neroli-54515.html",
-        // "https://www.fragrantica.com/perfume/New-York-Yankees/New-York-Yankees-14600.html",
-        { waitUntil: "domcontentloaded" }
-      );
+      await page.goto(urlParam, { waitUntil: "domcontentloaded" });
 
       // Accords
       const accordBoxData = await page.$$eval(".accord-box", (elements) =>

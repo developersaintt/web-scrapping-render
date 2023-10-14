@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 // Function to handle the root path
 app.get("/api/scrap", async function (req, res) {
   console.log("scrapping start");
-  scrapURL(req, res);
+  await scrapURL(req, res);
 });
 
 // app.get("/local", async function (req, res) {
