@@ -26,11 +26,28 @@ async function metafieldsUpdate(finalNotes, product_id) {
     }
     for (let a of seasonsNames) {
       const float = parseFloat(seasons[a]);
-      if (float >= 7.0) {
+      if (float >= 6.0) {
         seasonsNameFilters.push(a);
       }
     }
   }
+
+  let accordsNames = [];
+  let accordsValues = [];
+  let accordsNameFilters = [];
+  if (accordBoxData !== undefined) {
+    accordsNames = Object.keys(accordBoxData);
+    for (let a of accordsNames) {
+      accordsValues.push(accordBoxData[a]);
+    }
+    for (let a of accordsNames) {
+      const float = parseFloat(accordBoxData[a]);
+      if (float >= 7.0) {
+        accordsNameFilters.push(a);
+      }
+    }
+  }
+
   await shopify.metafield.create({
     key: "main_accords_percentage",
     value: JSON.stringify(mainAccordPerc),
@@ -71,6 +88,17 @@ async function metafieldsUpdate(finalNotes, product_id) {
     await shopify.metafield.create({
       key: "season_name_filter",
       value: JSON.stringify(seasonsNameFilters),
+      type: "list.single_line_text_field",
+      namespace: "custom",
+      owner_resource: "product",
+      owner_id: product_id,
+    });
+  }
+
+  if (accordsNameFilters.length > 0) {
+    await shopify.metafield.create({
+      key: "main_accords_name_filter",
+      value: JSON.stringify(accordsNameFilters),
       type: "list.single_line_text_field",
       namespace: "custom",
       owner_resource: "product",

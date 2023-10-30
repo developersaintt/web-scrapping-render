@@ -1,16 +1,20 @@
 // @desc    Gets All Products
 // @route   GET /api/products
 
+const { getProductById } = require("./getProductById");
 const { metafieldsUpdate } = require("./updateMetaFields");
 const puppeteer = require("puppeteer");
 require("dotenv").config();
+const fs = require("fs");
 // const chromium = require("chrome-aws-lambda");
 // const puppeteer = require("puppeteer-core");
 
-async function scrapURL(req, res) {
+async function scrapURL2(req, res, productId, fURL) {
   try {
-    const urlParam = req.query?.url;
-    const id = req.query?.p_id;
+    // const urlParam = req.query?.url;
+    // const id = req.query?.p_id;
+    const urlParam = fURL;
+    const id = productId;
     if (!urlParam) {
       //   res.writeHead(200, { "Content-Type": "application/json" });
       res.send({ error: "url is required" });
@@ -50,9 +54,6 @@ async function scrapURL(req, res) {
           ).toFixed(2),
         }))
       );
-
-      console.log(urlParam);
-      console.log(accordBoxData);
 
       // Seasons
       await page.waitForSelector("#rating + div + div > div + div [index]");
@@ -151,7 +152,7 @@ async function scrapURL(req, res) {
       };
       await metafieldsUpdate(finalNotes, id);
 
-      res.send({ data: finalNotes });
+      // res.send({ data: finalNotes });
       // res.send(200).data({ data: finalNotes });
       // res.send({
       //   notes,
@@ -165,6 +166,9 @@ async function scrapURL(req, res) {
       // });
     } catch (error) {
       console.log(error);
+      console.log("----------->>>>>");
+      fs.appendFileSync("./../error.txt", id);
+
       if (browser) await browser.close();
       //   res.writeHead(200, { "Content-Type": "application/json" });
       res.send(JSON.stringify(error));
@@ -175,5 +179,5 @@ async function scrapURL(req, res) {
 }
 
 module.exports = {
-  scrapURL,
+  scrapURL2,
 };

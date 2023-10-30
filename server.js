@@ -1,8 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const { scrapURL } = require("./controllers/scrapController");
+const { scrapURL2 } = require("./controllers/scrapController2");
 const cors = require("cors");
 const axios = require("axios");
+
+const fs = require("fs");
+const { getProductById } = require("./controllers/getProductById");
 
 let app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,8 +20,20 @@ app.use((req, res, next) => {
 
 // Function to handle the root path
 app.get("/api/scrap", async function (req, res) {
-  console.log("scrapping start");
-  await scrapURL(req, res);
+  const data = fs.readFileSync("productids.txt", "utf8");
+  const fURLsdata = fs.readFileSync("fragranticaURLs.txt", "utf8");
+
+  const productIds = data.split("\n");
+  const fURLs = fURLsdata.split("\n");
+
+  res.send({ message: "doing scrapping" });
+  for (let index = 0; index < productIds.length; index++) {
+    const productId = productIds[index];
+    const fURL = fURLs[index];
+    if (fURL === "") continue;
+    console.log(fURL, productId);
+    await scrapURL2(req, res, productId, fURL);
+  }
 });
 
 // app.get("/local", async function (req, res) {
